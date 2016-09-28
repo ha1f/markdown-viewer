@@ -5,8 +5,8 @@ var source = require('vinyl-source-stream');
 var webserver = require('gulp-webserver');
 
 gulp.task('browserify', function() {
-    browserify('./js/index.jsx', { debug: true })
-        .transform(babelify, {presets: ["es2015", "react"]})
+    browserify('./js/components/App.jsx', { debug: true })
+        .transform(babelify, { presets: ["es2015", "react"] })
         .bundle()
         .on("error", function (err) { console.log("Error : " + err.message); })
         .pipe(source('bundle.js'))

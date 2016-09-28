@@ -1,5 +1,5 @@
 {
-  "name": "reactsample",
+  "name": "markdown-viewer",
   "version": "0.1.0",
   "description": "description",
   "scripts": {
@@ -25,9 +25,10 @@
     "gulp-webserver": "^0.9.1",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
-    "react-redux": "^4.4.5",
-    "redux": "^3.5.2",
-    "redux-devtools": "^3.3.1",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "highlight.js": "^9.7.0",
+    "marked": "^0.3.6"
   }
 }
