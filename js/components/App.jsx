@@ -45,6 +45,15 @@ export default class App extends React.Component {
             this.setState({ content: text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "") });
         });
     }
+    handleClick() {
+        let uri = this._input.value;
+        this.loadText(uri, (text) => {
+            let title = text.split(/\r\n|\r|\n/, 1)[0];
+            this._headerTitle.innerHTML = title;
+            let res = (title[0] == '#') ? text : text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "");
+            this.setState({ content: res });
+        });
+    }
     render() {
         return (
             <div>
@@ -54,6 +63,8 @@ export default class App extends React.Component {
                     <div className="header-text">_ha1fが9月にKobitoから投稿</div>
                 </div>
                 <MarkdownView content={ this.state.content }></MarkdownView>
+                <input ref={ (c) => {this._input = c;} } type="text" size="40" />
+                <input type="button" value="表示" onClick={this.handleClick.bind(this)} />
             </div>
         );
     }
