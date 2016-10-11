@@ -104,8 +104,10 @@ class MarkdownPage extends React.Component {
 
 ReactDOM.render(
     <Router history={browserHistory}>
-    <Route path="/" component={ App }>
-    </Route>
+        <Route path="/" component={ App }>
+            <Route path="markdown-viewer" component={ App } />
+            <Route path="*" component={ App } />
+        </Route>
   </Router>,
     document.getElementById('react-root')
 );
