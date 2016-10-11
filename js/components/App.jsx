@@ -2,10 +2,44 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
 import MarkdownView from './MarkdownView.jsx'
 
 export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            uri: ''
+        };
+    }
+    handleClick() {
+        const newUri = this._input.value;
+        location.href = `?filepath=${encodeURIComponent(newUri)}`
+    }
+    componentDidMount() {
+        if (this.props.location.query.filepath) {
+            this.setState({ uri: this.props.location.query.filepath });
+        }
+    }
+    render() {
+        //
+        if (this.state.uri != '') {
+            return (
+                <MarkdownPage target={this.state.uri}></MarkdownPage>
+            );
+        } else {
+            return (
+                <div>
+                    <input ref={ (c) => { this._input = c; } } type="text" size="40" />
+                    <input type="button" value="表示" onClick={this.handleClick.bind(this)} />
+                </div>
+            )
+        }
+    }
+}
+
+class MarkdownPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,17 +71,17 @@ export default class App extends React.Component {
         req.send(null);
     }
     componentDidMount() {
-        let target = "./../../README.md";
-        // let target = "https://raw.githubusercontent.com/jphacks/KB_1501/master/README.md";
+        let target = this.props.target;
         this.loadText(target, (text) => {
             let title = text.split(/\r\n|\r|\n/, 1)[0];
             this._headerTitle.innerHTML = title;
-            this.setState({ content: text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "") });
+            let res = (title[0] == '#') ? text : text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "");
+            this.setState({ content: res });
         });
     }
-    handleClick() {
-        let uri = this._input.value;
-        this.loadText(uri, (text) => {
+    componentWillReceiveProps(nextProps) {
+        let target = this.props.target;
+        this.loadText(taget, (text) => {
             let title = text.split(/\r\n|\r|\n/, 1)[0];
             this._headerTitle.innerHTML = title;
             let res = (title[0] == '#') ? text : text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "");
@@ -63,14 +97,15 @@ export default class App extends React.Component {
                     <div className="header-text">_ha1fが9月にKobitoから投稿</div>
                 </div>
                 <MarkdownView content={ this.state.content }></MarkdownView>
-                <input ref={ (c) => {this._input = c;} } type="text" size="40" />
-                <input type="button" value="表示" onClick={this.handleClick.bind(this)} />
             </div>
         );
     }
 }
 
 ReactDOM.render(
-    <App />,
+    <Router history={browserHistory}>
+    <Route path="/" component={ App }>
+    </Route>
+  </Router>,
     document.getElementById('react-root')
 );
