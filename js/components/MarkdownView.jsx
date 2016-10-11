@@ -8,7 +8,7 @@ export default class MarkdownView extends React.Component {
         super(props);
         this._markedRenderer = new marked.Renderer;
         this._highlight = (code, lang, callback) => {
-            return hljs.highlight(lang ? lang : 'sh', code).value;
+            return hljs.highlight(lang ? (hljs.getLanguage(lang) ? lang : 'sh') : 'sh', code).value;
         }
     }
     componentDidMount() {
@@ -18,6 +18,9 @@ export default class MarkdownView extends React.Component {
             tables: true,
             highlight: this._highlight,
             renderer: this._markedRenderer
+        });
+        hljs.configure({
+    	    tabReplace: "    ",
         });
         this._markedRenderer.code = function(code, fileInfo, escaped) {
             // 参考: http://qiita.com/59naga/items/7d46155715416561aa60

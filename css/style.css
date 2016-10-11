@@ -60,7 +60,10 @@ body {
 }
 
 .markdown-content blockquote {
-	border-left: solid 1px #999999;
+	border-left: solid 5px #999999;
+	margin-left: 10px;
+	padding-left: 20px;
+	color: #777777;
 }
 
 .markdown-content h1 {
