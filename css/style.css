@@ -39,15 +39,28 @@ body {
 /* まとまったコード */
 .markdown-content pre code:not(.filename) {
 	display: block;
-	padding: 30px 10px 10px 10px;
-	margin-top: -20px; /*filenameとの兼ね合い*/
+	padding: 10px;
+	z-index: 1;
+}
+
+/* ファイル名が表示されているもの */
+.markdown-content pre code:not(.filename).named {
+	padding-top: 25px;
 }
 
 /* まとまったコードの上のファイル名 */
 .markdown-content pre code.filename {
 	display: inline-block;
+	position: relative;
+	top: 19px;
 	background-color: #dddddd;
 	padding: 0px 10px;
+	margin-bottom: -20px;
+	z-index: 10;
+}
+
+.markdown-content blockquote {
+	border-left: solid 1px #999999;
 }
 
 .markdown-content h1 {

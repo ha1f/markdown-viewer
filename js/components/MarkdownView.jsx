@@ -8,7 +8,7 @@ export default class MarkdownView extends React.Component {
         super(props);
         this._markedRenderer = new marked.Renderer;
         this._highlight = (code, lang, callback) => {
-            return hljs.highlight(lang, code).value;
+            return hljs.highlight(lang ? lang : 'sh', code).value;
         }
     }
     componentDidMount() {
@@ -22,10 +22,10 @@ export default class MarkdownView extends React.Component {
         this._markedRenderer.code = function(code, fileInfo, escaped) {
             // 参考: http://qiita.com/59naga/items/7d46155715416561aa60
             const delimiter = ':';
-            let info = fileInfo.split(delimiter);
+            let info = fileInfo ? fileInfo.split(delimiter) : [];
             const lang = info.shift();
             const fileName = info.join(delimiter);
-            const fileTag = `<code class="filename">${fileName == '' ? lang : fileName}</code>`
+            const fileTag = fileName != '' || lang ? `<code class="filename">${fileName != '' ? fileName : lang}</code>` : ''
 
             if (this.options.highlight) {
                 let out = this.options.highlight(code, lang);
@@ -36,11 +36,8 @@ export default class MarkdownView extends React.Component {
             }
 
             let escapedCode = escaped ? code : escape(code, true);
-            if (!lang) {
-                return `<pre>${fileTag}<code>${escapedCode}\n</code></pre>`
-            } else {
-                return `<pre>${fileTag}<code class="${this.options.langPrefix + escape(lang, true)} hljs">${escapedCode}\n</code></pre>\n`
-            }
+            let className = `${lang ? this.options.langPrefix + escape(lang, true) : ''} hljs ${fileTag != '' ? 'named' : ''}`;
+            return `<pre>${fileTag}<code class="${className}">${escapedCode}\n</code></pre>`;
         };
     }
     render() {

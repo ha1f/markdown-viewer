@@ -70,11 +70,14 @@ class MarkdownPage extends React.Component {
         req.open("GET", path);
         req.send(null);
     }
+    setTitle(title) {
+        this._headerTitle.innerHTML = title;
+    }
     componentDidMount() {
         let target = this.props.target;
         this.loadText(target, (text) => {
             let title = text.split(/\r\n|\r|\n/, 1)[0];
-            this._headerTitle.innerHTML = title;
+            this.setTitle(title);
             let res = (title[0] == '#') ? text : text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "");
             this.setState({ content: res });
         });
@@ -83,7 +86,7 @@ class MarkdownPage extends React.Component {
         let target = this.props.target;
         this.loadText(taget, (text) => {
             let title = text.split(/\r\n|\r|\n/, 1)[0];
-            this._headerTitle.innerHTML = title;
+            this.setTitle(title);
             let res = (title[0] == '#') ? text : text.replace(new RegExp(title + "(\r\n|\r|\n)*"), "");
             this.setState({ content: res });
         });
