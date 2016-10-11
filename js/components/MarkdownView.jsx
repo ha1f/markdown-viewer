@@ -29,7 +29,7 @@ export default class MarkdownView extends React.Component {
 
             if (this.options.highlight) {
                 let out = this.options.highlight(code, lang);
-                if (out != null && out !== code) {
+                if (out != null/* && out !== code*/) {
                     escaped = true;
                     code = out;
                 }
