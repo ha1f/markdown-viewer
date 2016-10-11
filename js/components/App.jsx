@@ -37,7 +37,7 @@ export default class App extends React.Component {
         req.send(null);
     }
     componentDidMount() {
-        let target = "./../../NSTaskを非同期で実行する.md";
+        let target = "./../../README.md";
         // let target = "https://raw.githubusercontent.com/jphacks/KB_1501/master/README.md";
         this.loadText(target, (text) => {
             let title = text.split(/\r\n|\r|\n/, 1)[0];
